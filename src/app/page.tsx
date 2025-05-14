@@ -510,7 +510,7 @@ export default function Home() {
                 href="mailto:enochhood69@gmail.com"
                 className="text-sm text-gray-200"
               >
-                enochhood69@gmail.com
+                winthematch001@gmail.com
               </a>
             </div>
 
@@ -520,7 +520,7 @@ export default function Home() {
                 <span>Get In Touch</span>
               </p>
               <a href="tel:+233559854849" className="text-sm text-gray-200">
-                +233 559 854 849
+                +233 53 045 1122
               </a>
             </div>
           </div>
