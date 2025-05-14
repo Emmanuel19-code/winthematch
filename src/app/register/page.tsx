@@ -1,25 +1,88 @@
-import React from 'react'
+"use client";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import Link from "next/link";
+import { useRegisterUserMutation } from "@/state/api";
+import { useRouter } from "next/navigation";
+
+type UserFormData = {
+  fullname: string;
+  mobile_number: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+};
 
 const RegisterPage = () => {
+  const [createUser, { isLoading }] = useRegisterUserMutation();
+  const [message, setMessage] = useState<{
+    text: string;
+    type: "success" | "error";
+  } | null>(null);
+  const [formData, setFormData] = useState<UserFormData>({
+    fullname: "",
+    mobile_number: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
+const router = useRouter();
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleCreateUser = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (formData.password !== formData.confirm_password) {
+      setMessage({ text: "Passwords do not match", type: "error" });
+      return;
+    }
+
+    try {
+      const res = await createUser(formData).unwrap();
+      setMessage({ text: "User created successfully!", type: "success" });
+      router.push("/sendverification")
+    } catch (err: any) {
+      if (err?.data?.detail) {
+        setMessage({ text: err.data.detail, type: "error" });
+      } else {
+        setMessage({
+          text: "An unexpected error occurred. Please try again.",
+          type: "error",
+        });
+        console.error("Registration error:", err);
+      }
+    }
+  };
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-slate-100">
-      <div className="flex flex-col md:flex-row bg-white shadow-2xl rounded-2xl overflow-hidden w-full max-w-5xl">
-        {/* Left Image or Logo Area */}
+    <div className="flex justify-center items-center min-h-screen bg-slate-100 px-4">
+      <div className="flex flex-col md:flex-row bg-white shadow-2xl rounded overflow-hidden w-full max-w-5xl">
+        {/* Left Image */}
         <div
           className="md:w-1/2 bg-cover bg-center hidden md:flex items-center justify-center p-6"
           style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1597645587822-e99fa5d45d25?auto=format&fit=crop&w=800&q=80)",
+            backgroundImage: "url('/winthematch.png')",
           }}
-        >
-          <div className="text-white text-3xl font-bold">WIN THE MATCH</div>
-        </div>
+        ></div>
 
         {/* Right Form */}
-        <div className="w-full md:w-1/2 p-8">
+        <div className="w-full md:w-1/2 p-6 sm:p-8">
+          {/* Optional logo or banner for mobile */}
+          <div className="md:hidden mb-6 flex justify-center">
+            <img
+              src="https://images.unsplash.com/photo-1597645587822-e99fa5d45d25?auto=format&fit=crop&w=400&q=60"
+              alt="WIN THE MATCH"
+              className="w-24 h-24 object-cover rounded-full"
+            />
+          </div>
+
           <div className="mb-6 text-center">
-            
-            <h2 className="text-2xl font-bold text-green-700">
+            <h2 className="text-xl sm:text-2xl font-bold text-green-700">
               Sign up to Join WIN THE MATCH
             </h2>
             <p className="text-gray-600 text-sm mt-1">
@@ -27,14 +90,29 @@ const RegisterPage = () => {
             </p>
           </div>
 
-          <form className="space-y-4">
+          {message && (
+            <div
+              className={`mb-4 text-sm font-medium px-4 py-3 rounded ${
+                message.type === "success"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {message.text}
+            </div>
+          )}
+
+          <form className="space-y-4" onSubmit={handleCreateUser}>
             <div>
               <label className="block text-sm font-semibold text-gray-700">
                 Full Name
               </label>
               <input
                 type="text"
+                name="fullname"
                 placeholder="eg. Lionel Messi"
+                onChange={handleChange}
+                value={formData.fullname}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
                 required
               />
@@ -46,7 +124,10 @@ const RegisterPage = () => {
               </label>
               <input
                 type="text"
+                name="mobile_number"
                 placeholder="eg. 233XXXXXXXXX"
+                onChange={handleChange}
+                value={formData.mobile_number}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
                 required
               />
@@ -58,7 +139,10 @@ const RegisterPage = () => {
               </label>
               <input
                 type="email"
+                name="email"
                 placeholder="eg. youremail@email.com"
+                onChange={handleChange}
+                value={formData.email}
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
                 required
               />
@@ -71,6 +155,9 @@ const RegisterPage = () => {
                 </label>
                 <input
                   type="password"
+                  name="password"
+                  onChange={handleChange}
+                  value={formData.password}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
                   required
                 />
@@ -81,38 +168,16 @@ const RegisterPage = () => {
                 </label>
                 <input
                   type="password"
+                  name="confirm_password"
+                  onChange={handleChange}
+                  value={formData.confirm_password}
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
                   required
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700">
-                  Country
-                </label>
-                <input
-                  type="text"
-                  value="Ghana"
-                  readOnly
-                  className="w-full px-4 py-2 border rounded-lg bg-gray-100 text-gray-700"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-gray-700">
-                  City
-                </label>
-                <input
-                  type="text"
-                  placeholder="City"
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2">
+            <div className="flex items-start sm:items-center gap-2 flex-col sm:flex-row">
               <input type="checkbox" required className="accent-green-600" />
               <span className="text-sm text-gray-700">
                 I am 18 years and above & I agree to the
@@ -125,22 +190,23 @@ const RegisterPage = () => {
 
             <button
               type="submit"
+              disabled={isLoading}
               className="w-full bg-green-700 text-white font-semibold py-2 rounded-lg hover:bg-green-800 transition"
             >
-              Sign Up
+              {isLoading ? "Signing Up..." : "Sign Up"}
             </button>
           </form>
 
           <p className="text-center text-sm text-gray-600 mt-6">
             Already have an account?{" "}
-            <a href="#" className="text-green-700 hover:underline">
+            <Link href="/login" className="text-green-700 hover:underline">
               Login here
-            </a>
+            </Link>
           </p>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default RegisterPage
+export default RegisterPage;

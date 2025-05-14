@@ -3,11 +3,19 @@ import TickSvg from "@/components/TickSvg";
 import WrongSvg from "@/components/WrongSvg";
 import { ChevronDown, ChevronUp, Instagram, Mail, Phone,  Twitter } from "lucide-react";
 import { useState } from "react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
+
 
 export default function Home() {
   const [previousWon, setPreviousWon] = useState(false);
   const [hotOdds,setHotOdds] = useState(false);
   const [midNight,setMidNight] = useState(false)
+  const pathname = usePathname();
+  const router = useRouter();
+  
   return (
     <div className="w-full h-full">
       {/* Top Banner with Date */}
@@ -22,26 +30,32 @@ export default function Home() {
 
         {/* Navigation Links */}
         <ul className="hidden md:flex items-center space-x-10">
-          <li className="text-white cursor-pointer hover:text-teal-700">
+          <Link href="/">
+          <li className={` ${pathname == "/"?"text-teal-700":"text-white"} cursor-pointer hover:text-teal-700`}>
             HOME
           </li>
+          </Link>
+         
           <li className="text-white cursor-pointer hover:text-teal-700">
             ABOUT US
           </li>
           <li className="text-white cursor-pointer hover:text-teal-700">
             VIP PAGE
           </li>
-          <li className="text-white cursor-pointer hover:text-teal-700">
+          <Link href={"/contact"}>
+          <li className={` ${pathname == "/contact"?"text-teal-700":"text-white"} cursor-pointer hover:text-teal-700`}>
             CONTACT US
           </li>
+          </Link>
+         
         </ul>
 
         {/* Action Buttons */}
         <div className="hidden md:flex items-center space-x-4">
-          <button className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-white hover:text-teal-500">
+          <button className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-white hover:text-teal-500" onClick={()=>router.push("/login")}>
             LOGIN
           </button>
-          <button className="px-4 py-2 bg-white text-teal-500 rounded hover:bg-gray-100">
+          <button className="px-4 py-2 bg-white text-teal-500 rounded hover:bg-gray-100" onClick={()=>router.push("/register")}>
             SIGN UP
           </button>
         </div>
@@ -420,7 +434,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mt-6 mb-4">
-              <div className="w-96">
+              <div className="w-96" onClick={()=>router.push("/login")}>
                 <p className="bg-teal-500 rounded py-2.5 font-medium hover:bg-gray-800 text-center cursor-pointer text-white">
                   SIGN UP OR LOGIN FOR FREE EXTRA TIPS
                 </p>

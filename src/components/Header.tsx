@@ -1,6 +1,11 @@
+"use client";
 import React from "react";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const Header = () => {
+  const pathname = usePathname();
+  console.log(pathname);
   return (
     <div className="">
       <div className="bg-teal-600 p-2">
@@ -12,20 +17,29 @@ const Header = () => {
         {/* Logo or Title */}
         <h4 className="text-white text-lg font-semibold">WIN THE MATCH</h4>
 
-        {/* Navigation Links */}
-        <ul className="flex items-center space-x-10">
-          <li className="text-white cursor-pointer hover:text-teal-700">
+        <ul className="hidden md:flex items-center space-x-10">
+          <Link href="/">
+          <li className={` ${pathname == "/"?"text-teal-700":"text-white"} cursor-pointer hover:text-teal-700`}>
             HOME
           </li>
-          <li className="text-white cursor-pointer hover:text-teal-700">
+          </Link>
+         <Link href="/about">
+         <li className={` ${pathname == "/about"?"text-teal-700":"text-white"} cursor-pointer hover:text-teal-700`}>
             ABOUT US
           </li>
-          <li className="text-white cursor-pointer hover:text-teal-700">
+         </Link>
+          <Link href="/vip">
+          <li className={` ${pathname == "/vip"?"text-teal-700":"text-white"} cursor-pointer hover:text-teal-700`}>
             VIP PAGE
           </li>
-          <li className="text-white cursor-pointer hover:text-teal-700">
+          </Link>
+          
+          <Link href={"/contact"}>
+          <li className={` ${pathname == "/contact"?"text-teal-700":"text-white"} cursor-pointer hover:text-teal-700`}>
             CONTACT US
           </li>
+          </Link>
+         
         </ul>
 
         {/* Action Buttons */}

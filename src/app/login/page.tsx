@@ -1,19 +1,51 @@
-import React from 'react'
-
+"use client";
+import React, { ChangeEvent, FormEvent, useState } from "react";
+import Link from "next/link";
+import { useLoginUserMutation } from "@/state/api";
 const LoginPage = () => {
+  const [loginUser,{isLoading}] = useLoginUserMutation();
+  const [message, setMessage] = useState<{
+      text: string;
+      type: "success" | "error";
+    } | null>(null);
+  const [formData, setFormData] = useState<UserFormData>({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+  const handleLoginUser = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const res = await loginUser(formData).unwrap();
+      setMessage({ text: "User created successfully!", type: "success" });
+    } catch (err: any) {
+      if (err?.data?.detail) {
+        setMessage({ text: "Please make sure all details are correct", type: "error" });
+      } else {
+        setMessage({
+          text: "An unexpected error occurred. Please try again.",
+          type: "error",
+        });
+        console.error("Registration error:", err);
+      }
+    }
+  };
   return (
     <div className="flex justify-center items-center min-h-screen bg-slate-100">
-      <div className="flex flex-col md:flex-row bg-white shadow-2xl rounded-2xl overflow-hidden w-full max-w-4xl">
+      <div className="flex flex-col md:flex-row bg-white shadow-2xl rounded overflow-hidden w-full max-w-4xl">
         {/* Left Banner / Image */}
         <div
-          className="md:w-1/2 bg-cover bg-center hidden md:block"
+          className="md:w-1/2 bg-cover bg-center hidden md:flex items-center justify-center p-6"
           style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1605283134472-685df9f7b166?auto=format&fit=crop&w=800&q=80)",
+            backgroundImage: "url('/winthematch.png')",
           }}
-        >
-          {/* You can replace the URL with a sports-related image */}
-        </div>
+        ></div>
 
         {/* Right Login Form */}
         <div className="w-full md:w-1/2 p-8">
@@ -25,8 +57,18 @@ const LoginPage = () => {
               Log into your account to place your bets
             </p>
           </div>
-
-          <form className="space-y-4">
+          {message && (
+            <div
+              className={`mb-4 text-sm font-medium px-4 py-3 rounded ${
+                message.type === "success"
+                  ? "bg-green-100 text-green-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {message.text}
+            </div>
+          )}
+          <form className="space-y-4" onSubmit={handleLoginUser}>
             <div>
               <label
                 htmlFor="email"
@@ -36,8 +78,11 @@ const LoginPage = () => {
               </label>
               <input
                 type="email"
+                name ="email"
                 id="email"
-                placeholder='examplekofi@gmail.com'
+                onChange={handleChange}
+                value={formData.email}
+                placeholder="examplekofi@gmail.com"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-600"
               />
             </div>
@@ -51,8 +96,11 @@ const LoginPage = () => {
               </label>
               <input
                 type="password"
+                name="password"
                 id="password"
-                placeholder='********'
+                onChange = {handleChange}
+                value = {formData.password}
+                placeholder="********"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-600"
               />
             </div>
@@ -69,6 +117,7 @@ const LoginPage = () => {
 
             <button
               type="submit"
+              disabled={isLoading}
               className="w-full bg-green-700 text-white font-semibold py-2 rounded-lg hover:bg-green-800 transition"
             >
               Log In
@@ -77,14 +126,14 @@ const LoginPage = () => {
 
           <p className="text-center text-sm text-gray-600 mt-6">
             Don't have an account?
-            <a href="#" className="text-green-700 hover:underline">
+            <Link href="/register" className="text-green-700 hover:underline">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default LoginPage
+export default LoginPage;
