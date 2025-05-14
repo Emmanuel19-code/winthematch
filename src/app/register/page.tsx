@@ -12,7 +12,7 @@ const RegisterPage = () => {
               "url(https://images.unsplash.com/photo-1597645587822-e99fa5d45d25?auto=format&fit=crop&w=800&q=80)",
           }}
         >
-          <div className="text-white text-3xl font-bold">Enokay69</div>
+          <div className="text-white text-3xl font-bold">WIN THE MATCH</div>
         </div>
 
         {/* Right Form */}
@@ -20,7 +20,7 @@ const RegisterPage = () => {
           <div className="mb-6 text-center">
             
             <h2 className="text-2xl font-bold text-green-700">
-              Sign up to Join Enokay69
+              Sign up to Join WIN THE MATCH
             </h2>
             <p className="text-gray-600 text-sm mt-1">
               All fields are required
