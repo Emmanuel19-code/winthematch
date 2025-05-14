@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Link from 'next/link';
 const RegisterPage = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-slate-100">
@@ -133,9 +133,9 @@ const RegisterPage = () => {
 
           <p className="text-center text-sm text-gray-600 mt-6">
             Already have an account?{" "}
-            <a href="#" className="text-green-700 hover:underline">
+            <Link href="/login" className="text-green-700 hover:underline">
               Login here
-            </a>
+            </Link>
           </p>
         </div>
       </div>
