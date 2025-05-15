@@ -1,4 +1,5 @@
 "use client";
+import DateGenerator from "@/components/DateGenerator";
 import Footer from "@/components/footer";
 import FreePlan from "@/components/FreePlan";
 import Header from "@/components/Header";
@@ -10,9 +11,7 @@ import React from "react";
 const VipPage = () => {
   return (
     <div className="w-full h-full">
-      <div className="bg-teal-600 p-2">
-        <p className="text-white font-medium">3 MAY 2025</p>
-      </div>
+      <DateGenerator/>
       <Header />
       <div className="bg-[url('/dice.jpg')] flex flex-col justify-center   bg-cover bg-center p-4 w-full h-64 relative  ">
         <div className="relative z-10 mt-6">

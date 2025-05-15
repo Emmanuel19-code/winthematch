@@ -1,3 +1,4 @@
+import DateGenerator from "@/components/DateGenerator";
 import Footer from "@/components/footer";
 import Header from "@/components/Header";
 import { ChevronRight } from "lucide-react";
@@ -6,9 +7,7 @@ import React from "react";
 const ContactPage = () => {
   return (
     <div className="w-full h-full">
-      <div className="bg-teal-600 p-2">
-        <p className="text-white font-medium">3 MAY 2025</p>
-      </div>
+     <DateGenerator/>
       <Header />
       <div className="bg-[url('/telephonetwo.jpg')] bg-cover bg-center p-4 w-full h-48 relative">
         <div className="absolute inset-0 " />
