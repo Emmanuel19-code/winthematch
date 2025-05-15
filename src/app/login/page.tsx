@@ -2,13 +2,14 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import Link from "next/link";
 import { useLoginUserMutation } from "@/state/api";
+import { ArrowLeftCircle } from "lucide-react";
 const LoginPage = () => {
-  const [loginUser,{isLoading}] = useLoginUserMutation();
+  const [loginUser, { isLoading }] = useLoginUserMutation();
   const [message, setMessage] = useState<{
-      text: string;
-      type: "success" | "error";
-    } | null>(null);
-  const [formData, setFormData] = useState<UserFormData>({
+    text: string;
+    type: "success" | "error";
+  } | null>(null);
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
@@ -26,7 +27,10 @@ const LoginPage = () => {
       setMessage({ text: "User created successfully!", type: "success" });
     } catch (err: any) {
       if (err?.data?.detail) {
-        setMessage({ text: "Please make sure all details are correct", type: "error" });
+        setMessage({
+          text: "Please make sure all details are correct",
+          type: "error",
+        });
       } else {
         setMessage({
           text: "An unexpected error occurred. Please try again.",
@@ -49,6 +53,17 @@ const LoginPage = () => {
 
         {/* Right Login Form */}
         <div className="w-full md:w-1/2 p-8">
+          {/* Back to Home Link */}
+          <div className="mb-4">
+            <Link
+              href="/"
+              className="text-green-700 flex flex-row items-center space-x-1 hover:underline text-sm font-semibold"
+            >
+              <ArrowLeftCircle />
+              <span>Back to Home</span>
+            </Link>
+          </div>
+
           <div className="mb-6">
             <h4 className="text-green-700 text-2xl font-bold text-center">
               WIN THE MATCH
@@ -57,6 +72,7 @@ const LoginPage = () => {
               Log into your account to place your bets
             </p>
           </div>
+
           {message && (
             <div
               className={`mb-4 text-sm font-medium px-4 py-3 rounded ${
@@ -68,6 +84,7 @@ const LoginPage = () => {
               {message.text}
             </div>
           )}
+
           <form className="space-y-4" onSubmit={handleLoginUser}>
             <div>
               <label
@@ -78,7 +95,7 @@ const LoginPage = () => {
               </label>
               <input
                 type="email"
-                name ="email"
+                name="email"
                 id="email"
                 onChange={handleChange}
                 value={formData.email}
@@ -98,8 +115,8 @@ const LoginPage = () => {
                 type="password"
                 name="password"
                 id="password"
-                onChange = {handleChange}
-                value = {formData.password}
+                onChange={handleChange}
+                value={formData.password}
                 placeholder="********"
                 className="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-green-600"
               />
@@ -125,7 +142,7 @@ const LoginPage = () => {
           </form>
 
           <p className="text-center text-sm text-gray-600 mt-6">
-            Don't have an account?
+            Don&apos;t have an account?{" "}
             <Link href="/register" className="text-green-700 hover:underline">
               Sign up
             </Link>

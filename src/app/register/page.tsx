@@ -3,7 +3,8 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRegisterUserMutation } from "@/state/api";
 import { useRouter } from "next/navigation";
-
+import { ArrowLeftCircle } from "lucide-react";
+import Image from "next/image";
 type UserFormData = {
   fullname: string;
   mobile_number: string;
@@ -25,7 +26,7 @@ const RegisterPage = () => {
     password: "",
     confirm_password: "",
   });
-const router = useRouter();
+  const router = useRouter();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -45,7 +46,7 @@ const router = useRouter();
     try {
       const res = await createUser(formData).unwrap();
       setMessage({ text: "User created successfully!", type: "success" });
-      router.push("/sendverification")
+      router.push("/sendverification");
     } catch (err: any) {
       if (err?.data?.detail) {
         setMessage({ text: err.data.detail, type: "error" });
@@ -72,12 +73,25 @@ const router = useRouter();
 
         {/* Right Form */}
         <div className="w-full md:w-1/2 p-6 sm:p-8">
+          {/* Back to Home Link */}
+          <div className="mb-4">
+            <Link
+              href="/"
+              className="text-green-700 flex flex-row items-center space-x-1 hover:underline text-sm font-semibold"
+            >
+              <ArrowLeftCircle />
+              <span>Back to Home</span>
+            </Link>
+          </div>
+
           {/* Optional logo or banner for mobile */}
           <div className="md:hidden mb-6 flex justify-center">
-            <img
-              src="https://images.unsplash.com/photo-1597645587822-e99fa5d45d25?auto=format&fit=crop&w=400&q=60"
+            <Image
+              src="/winthematch.png"
               alt="WIN THE MATCH"
-              className="w-24 h-24 object-cover rounded-full"
+              width={96}
+              height={96}
+              className="rounded-full object-cover"
             />
           </div>
 
