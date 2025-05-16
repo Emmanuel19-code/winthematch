@@ -27,10 +27,10 @@ const Footer = () => {
               <span>Email Us</span>
             </p>
             <a
-              href="mailto:enochhood69@gmail.com"
+              href="mailto:winthematch001@gmail.com"
               className="text-sm text-gray-200 hover:underline"
             >
-              enochhood69@gmail.com
+              winthematch001@gmail.com
             </a>
           </div>
 
@@ -40,10 +40,10 @@ const Footer = () => {
               <span>Get In Touch</span>
             </p>
             <a
-              href="tel:+233559854849"
+              href="tel:+233530451122"
               className="text-sm text-gray-200 hover:underline"
             >
-              +233 559 854 849
+              +233 530451122
             </a>
           </div>
         </div>
@@ -73,10 +73,16 @@ const Footer = () => {
       <div className="border-t border-teal-400 mt-10 pt-6 text-center text-sm space-y-2">
         <p>© 2025 winthematch. All rights reserved.</p>
         <div className="flex justify-center space-x-4 text-gray-200">
-          <a href="/privacy" className="hover:underline">Privacy Policy</a>
-          <a href="/terms" className="hover:underline">Terms & Conditions</a>
+          <a href="/privacy" className="hover:underline">
+            Privacy Policy
+          </a>
+          <a href="/terms" className="hover:underline">
+            Terms & Conditions
+          </a>
         </div>
-        <p className="text-gray-300">Powered by <span className="font-semibold">winthematch</span></p>
+        <p className="text-gray-300">
+          Powered by <span className="font-semibold">winthematch</span>
+        </p>
       </div>
     </footer>
   );
